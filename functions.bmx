@@ -166,7 +166,7 @@ End Function
 
 'Generates SUB information about all the CD tracks
 Function GenSubCDDA(SUB:TBank)
-	Local TotalTracks:Int = CUE.CountCDDA
+	Local TotalTracks:Int = CUE.CountCDDA()
 	If(TotalTracks > 0)
 		Print "Adding CD Audio track data to subchannel"
 		Local ReplaceOffset:Int
@@ -398,7 +398,7 @@ Type CUE
 				While(Line.StartsWith(" "))
 					Line = Right(Line, Len(Line) - 1)
 				Wend
-				
+								
 				'This is the header
 				If(Line.StartsWith("FILE"))
 					'Is a standard single track BIN file
@@ -423,7 +423,33 @@ Type CUE
 				ElseIf(Line.StartsWith("INDEX"))
 					Local Split:String[] = Line.Split(" ") 'Split the spaces
 					Local MSF:String[] = Split[2].Split(":") 'Split the colons from the MSF XX:XX:XX
-					AddListing(CurrentTrack, CurrentTrackType, Int(Split[1]), Int(MSF[0]), Int(MSF[1]), Int(MSF[2]), CurrentTrackFN)
+					
+					'QUICK HACK TO ADDRESS ISSUE #4 ON GITHUB
+					'Ok so is there an Index of 1, with 00 00 00 MSF?
+					'Hmm this COULD be a bad redump.org cuesheet.
+					'If there's a missing Index 00 then it's def bad, lets check for it
+					If(CurrentTrackType = "AUDIO" And Int(Split[1]) = 1 And Int(MSF[0]) = 0 And Int(MSF[1]) = 0 And Int(MSF[2]) = 0)
+						'We'll default the exists flag to false, because the FOR loop won't do anything if it's not found
+						Local Index0Exists:Byte = False
+						For Local IndexFixCue:CUE = EachIn CUE.List:TList
+							If(IndexFixCue.Index = 0 And IndexFixCue.Track = CurrentTrack And IndexFixCue.TrackType = CurrentTrackType)
+								'Ok there was an index of 00 beforehand for this track
+								Index0Exists = True
+							EndIf
+						Next
+						
+						'Hmmm, guess I was wrong and there's no leadin or something for this track?
+						If(Index0Exists)
+							AddListing(CurrentTrack, CurrentTrackType, Int(Split[1]), Int(MSF[0]), Int(MSF[1]), Int(MSF[2]), CurrentTrackFN)
+						Else 'Ok confirmed, this is a bad cuesheet. Let's fix it ourselves
+							Print "WARNING! Bad Index in CueSheet for TRACK '" + CurrentTrack + "'! Repairing..."
+							Print "If it's a ReDump.org source, you should report the cuesheet!"
+							AddListing(CurrentTrack, CurrentTrackType, 0, 0, 0, 0, CurrentTrackFN)
+							AddListing(CurrentTrack, CurrentTrackType, 1, 0, 2, 0, CurrentTrackFN)
+						EndIf
+					Else
+						AddListing(CurrentTrack, CurrentTrackType, Int(Split[1]), Int(MSF[0]), Int(MSF[1]), Int(MSF[2]), CurrentTrackFN)
+					EndIf
 				EndIf
 			Wend
 			'Done using this file
@@ -433,11 +459,15 @@ Type CUE
 		EndIf
 	End Function
 	'Counts all the tracks, excluding the data track.
-	Function CountCDDA:Int()
+	Function CountCDDA:Int(CountData:Byte = False)
 		Local TrackCount:Int = 0
 		For Local CueFile:CUE = EachIn CUE.List:TList
 			If(CueFile.Index = 0)
 				TrackCount:Int = TrackCount:Int + 1
+			ElseIf(CountData)
+				If(CueFile.Index = 1 And CueFile.TrackType = "MODE2/2352")
+					TrackCount:Int = TrackCount:Int + 1
+				EndIf
 			EndIf
 		Next
 		Return TrackCount:Int
@@ -497,7 +527,7 @@ Type CUE
 		'Sometimes in rare cases .CUE files contain the full path to the file, or maybe it could reside next to this very SBITools, lets check for that first
 		'Therefore does the Binary file exist with the exact path written in the cue? - Most likely not but lets check anyway
 		If(FileType(CUE.BinaryFN) = 1)
-			CUE.BinPath:String = CUE.BinaryFN
+			CUE.BinPath = "" 'Yes, make it no path then
 		Else 'Nope it didn't, lets search it the proper way
 			For Local i = 0 To Len(FDRPath:String[]) - 2 'Take 1 so it doesn't overflow, take another to remove the CUE filename for this string.
 				CUE.BinPath:String = CUE.BinPath:String + FDRPath:String[i] + "\"
@@ -525,12 +555,18 @@ Type CUE
 		
 		'Write the first track
 		WriteLine(ExportFile, "FILE " + Chr(34) + BinaryPath + Chr(34) + " BINARY")
-		WriteLine(ExportFile, "  TRACK 1 MODE2/2352")
 		
 		For Local CueFile:CUE = EachIn CUE.List:TList
 			'Hasn't written the track before it
 			If(CueFile.Index = 0)
 				WriteLine(ExportFile, "  TRACK " + CueFile.Track + " " + CueFile.TrackType)
+			ElseIf(CueFile.TrackType = "MODE2/2352") 'So games with multiple BINARY tracks will export the CUE file correctly
+				WriteLine(ExportFile, "  TRACK " + CueFile.Track + " MODE2/2352")
+				'It seems MODE2 tracks remove the 2 second leadin aswell
+				If(CueFile.Sector > 150)
+					CueFile.Sector = CueFile.Sector - 150
+					CueFile.MSF = SectorToMSF(CueFile.Sector)
+				EndIf
 			EndIf
 			WriteLine(ExportFile, "    INDEX " + CueFile.Index + " " + NumberToStrMSF(CueFile.MSF[0]) + ":" + NumberToStrMSF(CueFile.MSF[1]) + ":" + NumberToStrMSF(CueFile.MSF[2]))
 		Next

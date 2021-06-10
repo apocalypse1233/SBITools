@@ -2,19 +2,19 @@
 
 
 # SBITools
-SBITools v0.3 - http://kippykip.com
+SBITools v0.3.2 - http://kippykip.com
 
 **Description:**
    This is a small set of conversion tools written in BlitzMax to reconstruct .SUB files using .SBI/.LSD files, and can even convert a full BIN/CUE/SBI emulator setup into a IMG/CCD/SUB setup which can be put into popular CD Burning programs such as CloneCD.
-   This way, LibCrypt protected games dumped in other formats can still be burned as 1:1 copies on a real Sony PlayStation console again with the LibCrypt changes fully intact.
-   **These tools are only intended for intended for PlayStation images, there's no telling how these tools would react to standard Mode 1 PC disc images.**
+   This way, LibCrypt protected games dumped in other formats can still be burned as 1:1 copies on a real Sony PlayStation console again with the LibCrypt changes fully intact. NTSC versions of the same games don't use LibCrypt and may only have early modchip detection depending on the title.
+   **These tools are ONLY intended for PlayStation disc images, there's no telling how these tools would react to standard Mode 1 PC disc images.**
 
 **Requirements:**
-   psxt001z, to be in the same directory as SBITools
-   It can be downloaded from: http://redump.org/download/psxt001z-0.21b1.7z
-   Source Code: https://github.com/Dremora/psxt001z
-   It's pre-included in the "Releases" section for SBITools
-   https://github.com/Kippykip/SBITools/releases
+   psxt001z, to be in the same directory as SBITools  
+   It can be downloaded from: http://redump.org/download/psxt001z-0.21b1.7z  
+   Source Code: https://github.com/Dremora/psxt001z  
+   It's pre-included in the "Releases" section for SBITools  
+   https://github.com/Kippykip/SBITools/releases  
 
 **Arguments:**
 
@@ -64,6 +64,13 @@ I've bundled them all on the [releases page](https://github.com/Kippykip/SBITool
 
 **Version History**
 
+    Version 0.3.2
+        - Modified CUESheet code to detect and fix bad AUDIO indexes. As some ReDump.org PSX dumps contain a single index for some audio tracks.
+    Version 0.3.1
+        - Fixed a bug where CD images would not be copied if it was in the same directory as SBITools.
+        - CUE2CCD.BAT and SINGLETRACK.BAT drag and drop now works if the image was dragged from another drive letter.
+        - Rewrote exporting code to better support images that have multiple MODE2/2352 tracks in a single image.
+	- Made it more clear when .SBI/.LSD patches were not found, showing the path to expect.
     Version 0.3
         - BIN/CUE setups with seperated tracks are now fully supported!
         - Renamed -SBI & -LSD to -SBI2SUB & -LSD2SUB
@@ -134,7 +141,7 @@ The game also has anti-cracking protection where the game will block a path with
 **MediEvil (PAL)**\
 Will have a disc error icon upon loading The Hilltop Mausoleum. Interesting to note this was actually the *FIRST* game to use LibCrypt.
 
-**MediEvil 2**\
+**MediEvil 2 (PAL)**\
 Will also have the same disc error icon as above, except upon loading Kensington.
 
 **PGA European Tour Golf (PAL)**\
@@ -143,9 +150,10 @@ In the third hole of the first tournament or by selecting some holes, the game w
 **Resident Evil 3: Nemesis (PAL)**\
 Will hang at the "Game contains violence and gore" screen.
 
-**Spyro 3: Year of the Dragon**\
+**Spyro 3: Year of the Dragon (PAL)**\
 Interesting case for this one, the game will eventually randomly delete eggs, reset progress with unlocked characters, remove sheep in boss battles, change the language and even tell you off for playing a "hacked copy" + more.
 Interesting to note that the game also detected early LibCrypt knockout PPF patches back when the game was first released as it had checksum checks throughout the game, which caused the same effects above.
+The US platinum release only has anti mod detection (not libcrypt) and will do the above effects if it realises it's been modified. The original US release appears to not have any protection.
 
 **This is Football (PAL)**\
 Hangs on the loading screen going ingame.
@@ -155,6 +163,212 @@ The game will endlessly load on the heartbeat loading screen (with no disc activ
 
 **Wip3out (PAL)**\
 The game will freeze when passing the finish line.
+
+## PAL Games known with LibCrypt Protection
+Actua Ice Hockey 2 (Europe)  
+Anstoss - Premier Manager (Germany)  
+Ape Escape (Europe)  
+Ape Escape (France)  
+Ape Escape (Germany)  
+Ape Escape (Italy)  
+Ape Escape - La Invasion de los Monos (Spain)  
+Asterix - Mega Madness (Europe) (En,Fr,De,Es,It,Nl)  
+Barbie - Aventure Equestre (France)  
+Barbie - Race & Ride (Europe)  
+Barbie - Race & Ride (Germany)  
+Barbie - Race & Ride (Italy)  
+Barbie - Race & Ride (Spain)  
+Barbie - Sports Extreme (France)  
+Barbie - Super Sport (Germany)  
+Barbie - Super Sports (Europe)  
+Barbie - Super Sports (Italy)  
+Barbie - Super Sports (Spain)  
+BDFL Manager 2001 (Germany)  
+BDFL Manager 2002 (Germany)  
+Canal+ Premier Manager (Europe) (Fr,Es,It)  
+Crash Bash (Europe) (En,Fr,De,Es,It)  
+CTR - Crash Team Racing (Europe) (En,Fr,De,Es,It,Nl) (EDC)  
+CTR - Crash Team Racing (Europe) (En,Fr,De,Es,It,Nl) (No EDC)  
+Dino Crisis (Europe)  
+Dino Crisis (France)  
+Dino Crisis (Germany)  
+Dino Crisis (Italy)  
+Dino Crisis (Spain)  
+Disney Fais Ton Histoire! - Mulan (France)  
+Disney Libro Animato Creativo - Mulan (Italy)  
+Disney Tarzan (France)  
+Disney Tarzan (Spain)  
+Disney's 102 Dalmatians - Puppies to the Rescue (Europe) (Fr,De,Es,It,Nl)  
+Disney's 102 Dalmatians - Puppies to the Rescue (Europe)  
+Disney's Aventura Interactiva - Mulan (Spain)  
+Disney's Story Studio - Mulan (Europe)  
+Disney's Tarzan (Europe)  
+Disney's Tarzan (Netherlands)  
+Disney's Tarzan (Sweden)  
+Disney's Verhalenstudio - Mulan (Netherlands)  
+Disneys Interaktive Abenteuer - Mulan (Germany)  
+Disneys Tarzan (Germany)  
+Disneys Tarzan (Italy)  
+EA Sports Superbike 2000 (Europe) (En,Fr,De,Es,It,Sv)  
+Eagle One - Harrier Attack (Europe) (En,Fr,De,Es,It)  
+Esto es Futbol (Spain)  
+F.A. Premier League Football Manager 2001, The (Europe)  
+F1 2000 (Europe) (En,Fr,De,Nl)  
+F1 2000 (Italy)  
+Final Fantasy IX (Europe) (Disc 1)  
+Final Fantasy IX (Europe) (Disc 2)  
+Final Fantasy IX (Europe) (Disc 3)  
+Final Fantasy IX (Europe) (Disc 4)  
+Final Fantasy IX (France) (Disc 1)  
+Final Fantasy IX (France) (Disc 2)  
+Final Fantasy IX (France) (Disc 3)  
+Final Fantasy IX (France) (Disc 4)  
+Final Fantasy IX (Germany) (Disc 1)  
+Final Fantasy IX (Germany) (Disc 2)  
+Final Fantasy IX (Germany) (Disc 3)  
+Final Fantasy IX (Germany) (Disc 4)  
+Final Fantasy IX (Italy) (Disc 1)  
+Final Fantasy IX (Italy) (Disc 2)  
+Final Fantasy IX (Italy) (Disc 3)  
+Final Fantasy IX (Italy) (Disc 4)  
+Final Fantasy IX (Spain) (Disc 1)  
+Final Fantasy IX (Spain) (Disc 2)  
+Final Fantasy IX (Spain) (Disc 3)  
+Final Fantasy IX (Spain) (Disc 4)  
+Final Fantasy VIII (Europe, Australia) (Disc 1)  
+Final Fantasy VIII (Europe, Australia) (Disc 2)  
+Final Fantasy VIII (Europe, Australia) (Disc 3)  
+Final Fantasy VIII (Europe, Australia) (Disc 4)  
+Final Fantasy VIII (France) (Disc 1)  
+Final Fantasy VIII (France) (Disc 2)  
+Final Fantasy VIII (France) (Disc 3)  
+Final Fantasy VIII (France) (Disc 4)  
+Final Fantasy VIII (Germany) (Disc 1)  
+Final Fantasy VIII (Germany) (Disc 2)  
+Final Fantasy VIII (Germany) (Disc 3)  
+Final Fantasy VIII (Germany) (Disc 4)  
+Final Fantasy VIII (Italy) (Disc 1)  
+Final Fantasy VIII (Italy) (Disc 2)  
+Final Fantasy VIII (Italy) (Disc 3)  
+Final Fantasy VIII (Italy) (Disc 4)  
+Final Fantasy VIII (Spain) (Disc 1)  
+Final Fantasy VIII (Spain) (Disc 2)  
+Final Fantasy VIII (Spain) (Disc 3)  
+Final Fantasy VIII (Spain) (Disc 4)  
+Football Manager Campionato 2001 (Italy)  
+Formula One 99 (Europe) (En,Es,Fi)  
+Formula One 99 (Europe) (En,Fr,De,It)  
+Frontschweine (Germany)  
+Fussball Live (Germany)  
+Fussball Manager 2001 (Germany)  
+Galerians (Europe) (Disc 1)  
+Galerians (Europe) (Disc 2)  
+Galerians (Europe) (Disc 3)  
+Galerians (France) (Disc 1)  
+Galerians (France) (Disc 2)  
+Galerians (France) (Disc 3)  
+Galerians (Germany) (Disc 1)  
+Galerians (Germany) (Disc 2)  
+Galerians (Germany) (Disc 3)  
+Gekido - Urban Fighters (Europe) (En,Fr,De,Es,It)  
+Hogs of War (Europe)  
+Italian Job, The (Europe)  
+Italian Job, The (Germany)  
+Jackie Chan Stuntmaster (Europe)  
+Le Mans 24 Hours (Europe) (En,Fr,De,Es,It,Pt)  
+Legacy of Kain - Soul Reaver (Europe)  
+Legacy of Kain - Soul Reaver (France)  
+Legacy of Kain - Soul Reaver (Germany)  
+Legacy of Kain - Soul Reaver (Italy)  
+Legacy of Kain - Soul Reaver (Spain)  
+Les Cochons de Guerre (France)  
+LMA Manager 2001 (Europe)  
+LMA Manager 2002 (Europe)  
+Lucky Luke - Western Fever (Europe) (En,Fr,De,Es,It,Nl)  
+MediEvil (Europe)  
+MediEvil (France)  
+MediEvil (Germany)  
+MediEvil (Italy)  
+MediEvil (Spain)  
+MediEvil 2 (Europe) (En,Fr,De)  
+MediEvil 2 (Europe) (Es,It,Pt)  
+MediEvil 2 (Russia)  
+Men in Black - The Series - Crashdown (Europe)  
+Men in Black - The Series - Crashdown (France)  
+Men in Black - The Series - Crashdown (Germany)  
+Men in Black - The Series - Crashdown (Italy)  
+Men in Black - The Series - Crashdown (Spain)  
+Michelin Rally Masters - Race of Champions (Europe) (En,De,Sv)  
+Michelin Rally Masters - Race of Champions (Europe) (Fr,Es,It)  
+Mike Tyson Boxing (Europe) (En,Fr,De,Es,It)  
+Mission - Impossible (Europe) (En,Fr,De,Es,It)  
+MoHo (Europe) (En,Fr,De,Es,It)  
+Monde des Bleus, Le - Le jeu officiel de l'equipe de France (France)  
+N-Gen Racing (Europe) (En,Fr,De,Es,It)  
+Need for Speed - Porsche 2000 (Europe) (En,De,Sv)  
+Need for Speed - Porsche 2000 (Europe) (Fr,Es,It)  
+Parasite Eve II (Europe) (Disc 1)  
+Parasite Eve II (Europe) (Disc 2)  
+Parasite Eve II (France) (Disc 1)  
+Parasite Eve II (France) (Disc 2)  
+Parasite Eve II (Germany) (Disc 1)  
+Parasite Eve II (Germany) (Disc 2)  
+Parasite Eve II (Italy) (Disc 1)  
+Parasite Eve II (Italy) (Disc 2)  
+Parasite Eve II (Spain) (Disc 1)  
+Parasite Eve II (Spain) (Disc 2)  
+PGA European Tour Golf (Europe) (En,De)  
+Premier Manager 2000 (Europe)  
+Prince Naseem Boxing (Europe) (En,Fr,De,Es,It)  
+Radikal Bikers (Europe) (En,Fr,De,Es,It)  
+RC Revenge (Europe) (En,Fr,De,Es)  
+Resident Evil 3 - Nemesis (Europe)  
+Resident Evil 3 - Nemesis (France)  
+Resident Evil 3 - Nemesis (Germany)  
+Resident Evil 3 - Nemesis (Ireland)  
+Resident Evil 3 - Nemesis (Italy)  
+Resident Evil 3 - Nemesis (Spain)  
+Ronaldo V-Football (Europe) (De,Es,It,Pt)  
+Ronaldo V-Football (Europe) (En,Fr,Nl,Sv)  
+SaGa Frontier 2 (Europe)  
+SaGa Frontier 2 (France)  
+SaGa Frontier 2 (Germany)  
+SnoCross Championship Racing (Europe) (En,Fr,De,Es,It)  
+Space Debris (Europe)  
+Space Debris (France)  
+Space Debris (Germany)  
+Space Debris (Italy)  
+Speed Freaks (Europe)  
+Spyro - Year of the Dragon (Europe) (En,Fr,De,Es,It) (v1.0)  
+Spyro - Year of the Dragon (Europe) (En,Fr,De,Es,It) (v1.1)  
+Spyro 2 - Gateway to Glimmer (Europe) (En,Fr,De,Es,It)  
+Sydney 2000 (Europe)  
+Sydney 2000 (France)  
+Sydney 2000 (Germany)  
+Sydney 2000 (Spain)  
+TechnoMage - De Terugkeer der Eeuwigheid (Netherlands)  
+TechnoMage - Die Rueckkehr der Ewigkeit (Germany)  
+TechnoMage - En Quete de L'Eternite (France)  
+TechnoMage - Return of Eternity (Europe)  
+Theme Park World (Europe) (En,Fr,De,Es,It,Nl,Sv)  
+This Is Football (Europe) (Fr,Nl)  
+This Is Football (Europe)  
+This Is Football (Italy)  
+TOCA World Touring Cars (Europe) (En,Fr,De)  
+TOCA World Touring Cars (Europe) (Es,It)  
+UEFA Euro 2000 (Europe)  
+UEFA Euro 2000 (France)  
+UEFA Euro 2000 (Germany)  
+UEFA Euro 2000 (Italy)  
+UEFA Striker (Europe) (En,Fr,De,Es,It,Nl)  
+Urban Chaos (Europe) (En,Es,It)  
+Urban Chaos (Germany)  
+V-Rally - Championship Edition 2 (Europe) (En,Fr,De)  
+Vagrant Story (Europe)  
+Vagrant Story (France)  
+Vagrant Story (Germany)  
+Walt Disney World Quest - Magical Racing Tour (Europe) (En,Fr,De,Es,It,Nl,Sv,No,Da)  
+Wip3out (Europe) (En,Fr,De,Es,It)  
 
 ## CloneCD PSX LibCrypt Ripping guide
 In order to rip LibCrypt protected drives, you need a CD drive that's able to read subchannels in the first place.
@@ -245,8 +459,8 @@ If you manage to get one of these, then you have a completely different problem.
 In order to fix this, you will have to upgrade the modchip in your Sony PlayStation to one with **stealth capabilities**.
 
 The MultiMode 3 (MM3) is the best choice in my opinion, as it supports every PlayStation model out there ***EXCEPT*** the **PAL PSone Slim**. If you have one of those, you'll need a **ONEChip** instead.
-If you need a guide on how to wire and even make your own modchip, [I've written up a full guide on my website.](https://kippykip.com/index.php?threads/playstation-1-modchip-hex-dumps-mm3-and-onechip-and-more.500/)\
-Alternatively, there is a DIY open source modchip that uses an Arduino. The project is called [PSNee and is on github.](https://github.com/kalymos/PsNee)
+If you need a guide on how to wire and even make your own modchip, [I've got another git with modchip HEX files and diagrams](https://github.com/Kippykip/PSX-Modchip)\
+Alternatively, there is a DIY open source modchip that uses an Arduino. The project is called [PSNee and is on github as well.](https://github.com/kalymos/PsNee)
 
 ## Additional Credits and Sources:
 **qnorsten**: For creating a script to grab all .LSD files from ReDump.org\
@@ -262,11 +476,8 @@ Alternatively, there is a DIY open source modchip that uses an Arduino. The proj
 I really do hope you enjoy **SBITools** as much as I did making it!
 If you support the work I've put in, and want me to see more of these type of projects, you can support me with donations.  I'd gladly appreciate it! ![OH BOI](https://kippykip.com/styles/sleek/xenforo/smilies/k_dance.gif)  
   
-**Crypto Addresses**:  
-**ETH:** 0xb9D6c74986c5dC372CBA6d1cb8a099910557Ab62  
-**LTC:** LYru8N52kX3zTzbsMX5jmxB1bFoMsARUCo  
-**BTC:** 18zvRocGqCBfWAVWqJDzf4UNFZUhc93aQ2  
-**XLM:** GBUYHTDZWL22SP6OHV5U5WB33KQYFZBY2LMJO3RTUQQS5SUZNQXT322X  
-**DASH:** Xg2VSf2Via9whT6K6U6wGkECKACxPBa7MT  
-**0x:** 0xb9D6c74986c5dC372CBA6d1cb8a099910557Ab62  
-**TRX:** TQbZ6TxdNTJtZ7djJ3R7Sv1gB2DaeA5Bqy
+**KO-FI!!!**:  
+**http://ko-fi.com/kippykip**
+  
+**Patreon**
+**http://patreon.com/Kippykip**
